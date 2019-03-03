@@ -16,6 +16,7 @@ class KonektorProvider extends ServiceProvider
       require_once app_path('Helpers/MainPack.php');
       require_once app_path('Helpers/IPFSKonektor.php');
       require_once app_path('Helpers/ArtikelHelper.php');
+      require_once app_path('Helpers/StellarWrap.php');
     }
 
     /**
