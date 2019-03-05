@@ -1,5 +1,6 @@
 <?php
 namespace Helpers;
+
 /**
  * IPFS Konektor
  */
@@ -9,23 +10,38 @@ class IPFSKonektor
   public $gatewayPort;
   public $gatewayApiPort;
   public $ipfs;
+  public $base58;
   function __construct($addr,$gateway,$api)
   {
     $this->gatewayIP = $addr;
     $this->gatewayPort = $gateway;
     $this->gatewayApiPort = $api;
+    $this->base58 = new \StephenHill\Base58();
   }
   public function cat ($hash) {
 		$ip = $this->gatewayIP;
 		$port = $this->gatewayPort;
 		return json_decode($this->curl("http://$ip:$port/ipfs/$hash"));
 	}
+  public function decodeMemo($hash='')
+  {
+    return bin2hex(base64_decode($hash));
+  }
+  public function encodeSha($hash='')
+  {
+    $r = hex2bin($hash);
+    $t = $this->base58->encode(chr(0x12).chr(strlen($r)).$r);
+    return $t;
+  }
 	public function add ($content) {
 		$ip = $this->gatewayIP;
 		$port = $this->gatewayApiPort;
 		$req = $this->curl("http://$ip:$port/api/v0/add?stream-channels=true", $content);
 		$req = json_decode($req, TRUE);
-		return $req['Hash'];
+    $t = $req['Hash'];
+    $m = ( $this->base58->decode($t) );
+    return bin2hex(substr($m,2));
+		// return $req['Hash'];
 	}
 	public function ls ($hash) {
 		$ip = $this->gatewayIP;

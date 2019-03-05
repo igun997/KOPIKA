@@ -12,6 +12,9 @@
 */
 
 Route::get('/', "FrontController@index");
+Route::get('/getrecipe/{id}', "FrontController@getrecipe");
 //API
 Route::get('/api/v1', "ApiController@index");
 Route::post('/api/v1', "ApiController@index");
+Route::post('/api/v1/getrecipes',"ApiController@getRecipes");
+Route::post('/api/v1/saverecipes',"ApiController@saveRecipes");

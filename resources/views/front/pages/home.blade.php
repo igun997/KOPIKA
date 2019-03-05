@@ -9,15 +9,17 @@
       </div>
     </div>
     <div class="row">
+      @foreach($data as $k => $v)
       <div class="col-lg-4 col-md-6 col-sm-12 wow fadeIn">
+        <a href="{{url("/getrecipe/".$v->hash)}}">
         <div class="recipe-item text-center">
-          <a href="recipe.html">
-            <img src="images/bbq-pork-ribs.jpg" alt="bbq-pork-ribs" />
-          </a>
+            <img src="{{$v->pict}}" alt="{{$v->recipe_name}}" onerror="this.src='https://via.placeholder.com/500x500?text=No%20Image'" />
           <br />
-          <h3>Barbecue Pork Ribs</h3>
+          <h3>{{$v->recipe_name}}</h3>
         </div>
+      </a>
       </div>
+      @endforeach
     </div>
   </div>
 </section>
